@@ -26,8 +26,8 @@ import spring5_rest_study.service.RemoveMemberService;
 
 @RestController
 @RequestMapping("/api")
-
 public class RestMemberController {
+
 	@Autowired
 	private GetMemberService getMemSerivce;
 	@Autowired

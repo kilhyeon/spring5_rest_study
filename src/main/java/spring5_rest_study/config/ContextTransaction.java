@@ -21,32 +21,33 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 @EnableAspectJAutoProxy
 @Configuration
 public class ContextTransaction {
+	
 	@Autowired
-    PlatformTransactionManager transactionManager;
+	PlatformTransactionManager transactionManager;
 
-    @Bean
-    public TransactionInterceptor transactionAdvice() {
-        NameMatchTransactionAttributeSource txAttributeSource = new NameMatchTransactionAttributeSource();
-        
-        RuleBasedTransactionAttribute txAttribute = new RuleBasedTransactionAttribute();
-        txAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
-        txAttribute.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        
-        HashMap<String, TransactionAttribute> txAttributes = new HashMap<String, TransactionAttribute>();
-        txAttributes.put("tr*", txAttribute);
-        txAttributeSource.setNameMap(txAttributes);
-        
-        TransactionInterceptor txAdvice = new TransactionInterceptor();
-        txAdvice.setTransactionManager(transactionManager);
-        txAdvice.setTransactionAttributeSource(txAttributeSource);
-        return txAdvice;
-    }
+	@Bean
+	public TransactionInterceptor transactionAdvice() {
+		NameMatchTransactionAttributeSource txAttributeSource = new NameMatchTransactionAttributeSource();
 
-    @Bean
-    public Advisor transactionAdviceAdvisor() {
-        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression("execution(public * spring5_webmvc_mybatis_study.service..*Service.*(..))");
-        return new DefaultPointcutAdvisor(pointcut, transactionAdvice());
-    }
+		RuleBasedTransactionAttribute txAttribute = new RuleBasedTransactionAttribute();
+		txAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
+		txAttribute.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+		HashMap<String, TransactionAttribute> txAttributes = new HashMap<String, TransactionAttribute>();
+		txAttributes.put("tr*", txAttribute);
+		txAttributeSource.setNameMap(txAttributes);
+
+		TransactionInterceptor txAdvice = new TransactionInterceptor();
+		txAdvice.setTransactionManager(transactionManager);
+		txAdvice.setTransactionAttributeSource(txAttributeSource);
+		return txAdvice;
+	}
+
+	@Bean
+	public Advisor transactionAdviceAdvisor() {
+		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+		pointcut.setExpression("execution(public * spring5_rest_study.service..*Service.*(..))");
+		return new DefaultPointcutAdvisor(pointcut, transactionAdvice());
+	}
 
 }

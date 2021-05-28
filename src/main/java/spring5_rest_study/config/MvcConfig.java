@@ -24,6 +24,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 @Configuration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
+	
 	/** DispatcherServlet의 매핑경로를 '/'주었을 때, JSP/HTML/CSS 등을 올바르게 처리하기 위한 설정 추가 */
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -38,7 +39,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/main").setViewName("main");
+		registry.addViewController("/memberlist").setViewName("/member/list");
 	}
 
 	@Bean
