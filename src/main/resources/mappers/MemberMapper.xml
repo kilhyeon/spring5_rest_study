@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring5_rest_study.mappers.MemberMapper">
+	
+	<resultMap type="Member" id="resMember">
+		<id column="id" property="id"/>
+		<result column="regdate" property="registerDateTime"/>
+	</resultMap>
+	
+	<select id="selectMemberById" resultMap="resMember">
+		SELECT id, email, password, name, regdate
+		  FROM member
+		 WHERE id = #{id}
+	</select>
+	
+	<select id="selectMemberAll" resultMap="resMember">
+		SELECT id, email, password, name, regdate
+		  FROM member
+	</select>
+		
+	<insert id="insertMember" parameterType="Member">
+		insert into 
+		member (email, password, name, regdate) 
+		values (#{email}, #{password}, #{name}, now())
+	</insert>
+	
+	<update id="updateMember">
+		update member 
+		   set name=#{name}, password=#{password} 
+		 where email=#{email}
+	</update>
+	
+	<delete id="deleteMember">
+		delete 
+		  from member 
+		 where email=#{email}
+	</delete>
+</mapper>
