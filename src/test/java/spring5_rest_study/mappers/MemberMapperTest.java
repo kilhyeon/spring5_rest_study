@@ -1,7 +1,5 @@
 package spring5_rest_study.mappers;
 
-import static org.junit.Assert.fail;
-
 import java.util.List;
 
 import org.apache.ibatis.logging.Log;
@@ -36,7 +34,7 @@ public class MemberMapperTest {
 	}
 
 	@Test
-	public void test01SelectMemberById() {
+	public void test03SelectMemberById() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
 
 		Member member = mapper.selectMemberById(15);
@@ -46,7 +44,7 @@ public class MemberMapperTest {
 	}
 
 	@Test
-	public void test02SelectMemberAll() {
+	public void test01SelectMemberAll() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
 
 		List<Member> list = mapper.selectMemberAll();
@@ -56,13 +54,15 @@ public class MemberMapperTest {
 	}
 
 	@Test
-	public void test03InsertMember() {
+	public void test02InsertMember() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
 
 		Member newMember = new Member("test99@test.com", "1111", "test99");
 
 		int res = mapper.insertMember(newMember);
 		Assert.assertEquals(1, res);
+		
+		mapper.deleteMember(newMember.getId());
 	}
 
 	@Test
@@ -70,9 +70,13 @@ public class MemberMapperTest {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
 
 		Member newMember = new Member("test99@test.com", "2222", "테스트99");
-
+		mapper.insertMember(newMember);
+		
+		newMember.setPassword("1111");
 		int res = mapper.updateMember(newMember);
 		Assert.assertEquals(1, res);
+		
+		mapper.deleteMember(newMember.getId());
 	}
 
 	@Test
@@ -80,8 +84,9 @@ public class MemberMapperTest {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
 
 		Member newMember = new Member("test99@test.com", "2222", "테스트99");
+		mapper.insertMember(newMember);
 		
-		int res = mapper.deleteMember(newMember);
+		int res = mapper.deleteMember(newMember.getId());
 		Assert.assertEquals(1, res);
 	}
 
